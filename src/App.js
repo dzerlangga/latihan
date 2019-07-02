@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { Fragment} from 'react';
 import logo from './logo.svg';
+
+import { Provider } from 'react-redux'
 import img from './sticker.png';
 import './App.css';
-import { connect } from 'tls';
+import Spritesheet from 'react-responsive-spritesheet';
+import bg1 from './Untitled-3.png';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+
 
 function nama(element) {
 if (element.nama == "ia") {
@@ -489,13 +494,6 @@ const PRODUCTS = [
 
 
 
-
-
-
-
-
-
-
 class FlavorForm extends React.Component {
   constructor(props) {
     super(props);
@@ -534,10 +532,70 @@ class FlavorForm extends React.Component {
 }
 
 
+
+
+
+
+class OuterClickExample extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { isOpen: false };
+    this.toggleContainer = React.createRef();
+
+    this.onClickHandler = this.onClickHandler.bind(this);
+    this.onClickOutsideHandler = this.onClickOutsideHandler.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('click', this.onClickOutsideHandler);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onClickOutsideHandler);
+  }
+
+  onClickHandler() {
+    this.setState(currentState => ({
+      isOpen: !currentState.isOpen
+    }));
+  }
+
+  onClickOutsideHandler(event) {
+    if (this.state.isOpen && !this.toggleContainer.current.contains(event.target)) {
+      this.setState({ isOpen: false });
+    }
+  }
+
+  render() {
+    return (
+      <div ref={this.toggleContainer}>
+        <button onClick={this.onClickHandler}>Select an option</button>
+        {this.state.isOpen && (
+          <ul>
+            <li>Option 1</li>
+            <li>Option 2</li>
+            <li>Option 3</li>
+          </ul>
+        )}
+      </div>
+    );
+  }
+}
+
+
+const Home = ({Home})=>{
+  return "dadi";
+};
+const About = ({About})=>{
+  return "dedi";
+};
+
+
+
+
+
 export default function App(props) {
-
-
-
     return (
     <div className="App">
       <header className="App-header">
@@ -545,52 +603,65 @@ export default function App(props) {
         <p >
          {nama(element)} {dandi} {tampil}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
           Learn React 
         </a>
-        <br />
-
+        <br /> 
         <Welcome name="oke" />
-
-
-
         <Comment
           text={comment.text}
           author={comment.author}
         />
-
-
-
       <Sum/>
-
-
-
       <Clock  /> 
-
-
          <Tombol />
-
-         
          <Pindah />
-
-
          <Page/>
          
          {/* <Jumlah angkas={angkas} />  */}
           <Calculator/>
-
-
           <FilterableProductTable products={PRODUCTS} />
-
-
-
           <FlavorForm/>
+{/* animasi berputar */}
+          <Spritesheet
+            style={{width:'20%'}}
+            image={bg1}
+            widthFrame={420}
+            heightFrame={500}
+            steps={14}
+            fps={8}
+            autoplay={true}
+            loop={true}
+            />
+          <OuterClickExample/>
+
+{/* ruote link */}
+          <Router>
+            <Link to="/">dandi</Link>
+            <Link to="/about">deni</Link>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/about" component={About} />
+              </Switch>
+          </Router>
+
+
+          <div className="todo-app">
+            <h1>Todo List</h1>
+            <AddTodo />
+            <TodoList />
+            <VisibilityFilters />
+          </div>
+
       </header>
+      <div style={{backgroundColor:"red" , height:"100%"}}>
+        <ul>
+            <li>cek</li>
+            <li>cek</li>
+            <li>cek</li>
+          <li>cek</li>
+        </ul>
+      </div>
     </div>
   );
 }
